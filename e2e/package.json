@@ -1,0 +1,12 @@
+{
+  "name": "collabtext-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node two-tab-sync.mjs"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.47.2"
+  }
+}

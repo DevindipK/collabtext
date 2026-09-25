@@ -1,0 +1,8 @@
+node_modules/
+dist/
+build/
+*.log
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
+e2e/shot-*.png
