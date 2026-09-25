@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: collabtext-server
+    runtime: node
+    rootDir: server
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    plan: free
+    envVars:
+      - key: NODE_VERSION
+        value: 20

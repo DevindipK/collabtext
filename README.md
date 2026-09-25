@@ -171,6 +171,31 @@ should see that the choices were made, not missed:
   drift by the length of their edit. This is a genuinely hard UI problem
   even in production editors, not a shortcut specific to this project.
 
+## Deploying it live
+
+GitHub Pages can only serve the static `client/` build — it can't run the
+`server/` WebSocket process. So a real deployment needs both pieces, hosted
+separately:
+
+1. **Server** — deploy `server/` to a host that runs persistent Node
+   processes (it already reads `process.env.PORT`, so it's ready as-is). A
+   [`render.yaml`](render.yaml) blueprint is included: on
+   [Render](https://render.com), New → Blueprint → point it at this repo, and
+   it builds/starts `server/` automatically. Fly.io or Railway work the same
+   way. Note the resulting URL, e.g. `wss://collabtext-server.onrender.com`.
+2. **Client** — [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml)
+   builds `client/` and publishes it to GitHub Pages on every push to `main`.
+   Before it'll connect to your server:
+   - In the repo's **Settings → Pages**, set Source to **GitHub Actions**.
+   - In **Settings → Secrets and variables → Actions → Variables**, add
+     `VITE_WS_URL` set to your server's `wss://` URL from step 1.
+   - Push to `main` (or run the workflow manually) — the client deploys to
+     `https://<you>.github.io/collabtext/` and connects to the live server.
+
+Until `VITE_WS_URL` is set, the deployed client falls back to
+`ws://localhost:4000`, which only works when you're also running the server
+locally.
+
 ## Stack
 
 TypeScript end to end · React 18 · Vite · `ws` (WebSocket) · Jest (server) ·
